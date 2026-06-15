@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "DPS-HM: Surrogate-Guided Diffusion Posterior Sampling for Reservoir History Matching"
+authors:
+  - family-names: Yin
+    given-names: Rongwang
+    affiliation: "Hefei University"
+  - family-names: Zhang
+    given-names: Shaowei
+    affiliation: "Anhui Wenda University of Information Engineering"
+repository-code: "https://github.com/rwyin08-bit/dps"
+license: MIT
+keywords:
+  - history matching
+  - diffusion models
+  - Bayesian inversion
+  - neural operators
+  - reservoir simulation
+  - uncertainty quantification

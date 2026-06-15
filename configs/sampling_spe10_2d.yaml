@@ -1,0 +1,16 @@
+﻿# DPS-HM Sampling Configuration for SPE10 2D
+sampling:
+  ddim_steps: 250
+  ensemble_size: 100
+  rho_0: 0.10
+  gamma: 0.98
+  epsilon: 1.0e-6
+  ddim_eta: 0.1
+  
+data:
+  observation_noise_std: 0.02
+  
+models:
+  vae_checkpoint: models/vae_spe10_2d.pt
+  ldm_checkpoint: models/ldm_spe10_2d.pt
+  fno_checkpoint: models/fno_spe10_2d.pt
