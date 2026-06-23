@@ -1,0 +1,119 @@
+========================================================================
+  COMPREHENSIVE ACADEMIC EDITING REPORT
+  Manuscript_v1_corrected.docx
+========================================================================
+
+EDITING SCOPE: Full paper (Title through Conclusion)
+TASKS: (1) Language polishing to native academic English
+       (2) Reduce repetition / vary sentence structures
+       (3) Eliminate AI-generated text characteristics
+
+========================================================================
+  A. ELIMINATED AI PATTERNS
+========================================================================
+
+1. Formulaic section openers removed:
+   BEFORE: "The remainder of the paper proceeds as follows."
+   AFTER:  Direct launch into section roadmap.
+
+2. Overused transitions replaced:
+   "Furthermore" / "Moreover" -> Natural flow or varied connectors
+   "However," sentence starts -> "That said," / em-dash / restructured
+   "In addition" -> eliminated (information is inherently additive)
+
+3. Robotically parallel structures broken:
+   BEFORE: "We present... We derive... We develop... We show..."
+   AFTER:  Varied: "This paper introduces..." / passive / gerund openings
+
+4. AI hedging patterns reduced:
+   "It is worth noting that" -> deleted or integrated
+   "We emphasize that" -> reduced frequency
+   "merit consideration" -> "merit consideration" (kept when appropriate)
+   "deserve emphasis" -> restructured
+
+5. Pompous academic formulations simplified:
+   "a manifestation of a well-known phenomenon" -> "a well-known phenomenon"
+   "None of these difficulties yield to a single technique alone"
+     -> "No single technique addresses all three"
+   "is one of Bayesian inference" -> "is Bayesian inference"
+
+========================================================================
+  B. LANGUAGE POLISHING HIGHLIGHTS
+========================================================================
+
+ABSTRACT:
+  "Here we introduce" -> "This paper introduces" (formal register)
+  "integrates... with" -> "couples... with" (precise verb)
+  "develop" -> "propose" / "devise" (lexical variety)
+  "degrades gracefully" -> "a graceful rather than catastrophic degradation"
+  "are released to facilitate reproducibility" -> "are released" (less AI)
+
+INTRODUCTION:
+  "principally" -> "chiefly"
+  "offer greater expressivity" -> "bring greater expressivity"
+  "remarkable accuracy" -> "striking accuracy"
+  "introduces challenges" -> "raises fresh challenges"
+  "is the central task of this paper" kept as strong closer
+
+DISCUSSION:
+  "are worth understanding separately" -> "Understanding each
+   separately is instructive" (more natural)
+  "is influenced by the likelihood gradient" ->
+   "respond to the likelihood gradient" (active voice)
+  "edges ahead due to" -> "edges ahead through" (precise preposition)
+  "a Kalman filter at heart" -> "a Kalman filter at its core"
+
+========================================================================
+  C. SENTENCE RHYTHM IMPROVEMENTS
+========================================================================
+
+- Varied sentence openers: subject-first, subordinate clause, gerund
+- Mixed long (explanatory) and short (punchy) sentences
+- Used em-dashes for parenthetical emphasis instead of commas
+- Broke up dense paragraph blocks where readability suffered
+- Preserved all mathematical notation and equation references
+- Maintained exact meaning of all technical claims
+- Retained hedging where scientifically appropriate (limitations)
+
+========================================================================
+  D. SECTIONS EDITED
+========================================================================
+
+  [FULL EDIT] Title, Abstract
+  [FULL EDIT] Section 1: Introduction (1.1-1.4)
+  [LIGHT EDIT] Section 2: Problem Formulation (equation-heavy)
+  [FULL EDIT] Section 3: Methodology (3.1-3.7)
+  [LIGHT EDIT] Section 4: Experimental Setup (technical/specs)
+  [FULL EDIT] Section 5: Results (narrative paragraphs)
+  [FULL EDIT] Section 6: Discussion (mechanisms, limitations, future)
+  [FULL EDIT] Section 7: Conclusion
+
+  Full edited text saved across:
+    edited_s1.txt (Title, Abstract, Introduction)
+    edited_s2.txt (Problem Formulation)
+    edited_s3.txt (Methodology)
+    edited_s5.txt (Results)
+    edited_s6.txt (Discussion)
+    edited_s7.txt (Conclusion)
+
+========================================================================
+  E. KEY PRINCIPLES APPLIED
+========================================================================
+
+1. Preserve ALL technical content, equations, citations, and claims
+2. Eliminate AI "voice" — overly smooth, predictably structured,
+   transition-heavy prose that sounds like ChatGPT
+3. Inject natural academic rhythm — varying sentence length, using
+   occasional fragments for emphasis, avoiding monoculture of "We X"
+4. Reduce word count where possible without losing meaning
+5. Keep hedging where scientifically honest, remove where performative
+6. Use precise verbs: "couple" over "integrate with", 
+   "respond to" over "is influenced by"
+7. Convert passive to active where it improves clarity
+8. Break formulaic list patterns ("First,... Second,... Third,...")
+   where they appear AI-generated
+
+========================================================================
+The edited text is ready for integration into the manuscript.
+Please review and approve the changes before final submission.
+========================================================================
