@@ -1,16 +1,52 @@
-﻿# DPS-HM Sampling Configuration for SPE10 2D
+# DPS-HM Sampling Configuration for SPE10 2D
+# Adaptive step-size schedule with running-statistic normalization (Eq. 19)
 sampling:
-  ddim_steps: 250
-  ensemble_size: 100
-  rho_0: 0.10
-  gamma: 0.98
-  epsilon: 1.0e-6
-  ddim_eta: 0.1
-  
+  ddim_steps: 250           # DDIM sampling steps (marginal gain beyond 250 <8%)
+  ensemble_size: 100         # Number of posterior realizations M
+  rho_0: 0.10                # Initial step-size scale ζ₀
+  gamma: 0.98                # Decay factor γ (selected via 4×4 grid search)
+  epsilon: 1.0e-6            # Numerical stability floor
+  ddim_eta: 0.1              # DDIM stochasticity (η > 0 enables MMD convergence assessment)
+  ema_window: 10             # Running-statistic normalization window for μ_t
+
 data:
-  observation_noise_std: 0.02
-  
+  observation_noise_std: 0.02  # 2% of signal amplitude
+  observation_covariance: diagonal  # Σ_y assumed diagonal
+
 models:
   vae_checkpoint: models/vae_spe10_2d.pt
   ldm_checkpoint: models/ldm_spe10_2d.pt
   fno_checkpoint: models/fno_spe10_2d.pt
+
+# Posterior calibration (SBC — Section 3.8, 5.2.4)
+sbc:
+  enabled: true
+  n_calibration_trials: 200
+  mcmc_algorithm: pCN        # Preconditioned Crank-Nicolson
+  mcmc_iterations: 50000
+  mcmc_burnin: 10000
+  summary_statistics:
+    - mean_permeability
+    - channel_volume_fraction
+
+# Evaluation metrics (Section 4.4)
+metrics:
+  data_match:
+    - NRMSE                    # Normalized RMSE (WC, OR, BHP)
+    - DMR                      # Data Match Ratio (95% PPI)
+  geological:
+    - SSIM                     # Structural Similarity Index
+    - channel_connectivity     # Connected high-permeability pathways
+    - variogram_match          # L² distance to training image variogram
+  uncertainty:
+    - PICP_90                  # Prediction Interval Coverage Probability
+    - ensemble_spread          # trace(Cov_post)^(1/2) / trace(Cov_prior)^(1/2)
+    - SEER                     # Spectral Entropy Effective Rank (Eq. 20)
+  calibration:
+    - sbc_rank_histogram       # Uniformity via KS test
+    - energy_distance          # D² vs. MCMC reference ensemble
+
+reproducibility:
+  random_seed: 789
+  hardware: "NVIDIA A100 (40 GB)"
+  framework: "PyTorch 2.1, CUDA 12.1"

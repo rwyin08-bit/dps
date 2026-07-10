@@ -52,3 +52,13 @@ runs/
 tmp/
 temp/
 *.tmp
+
+# Manuscript and paper drafts (do not track)
+manuscript*.docx
+manuscript*.pdf
+manuscript*.txt
+Manuscript*.docx
+Manuscript*.pdf
+*_text.txt
+EDITING_REPORT.txt
+*.md~

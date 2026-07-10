@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "DPS-HM: Surrogate-Guided Diffusion Posterior Sampling for Reservoir History Matching"
+title: "Surrogate-Guided Diffusion Posterior Sampling for Bayesian Reservoir History Matching"
 authors:
   - family-names: Yin
     given-names: Rongwang
