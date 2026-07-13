@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Data files (large)
+data/spe10/*.mat
+data/brugge/*.mat
+data/spe10/*.h5
+data/brugge/*.h5
+
+# Model weights (large)
+models/*.pt
+models/*.pth
+models/*.ckpt
+
+# MRST
+*.mlx
+*.mlapp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+runs/
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# Manuscript and paper drafts (do not track)
+manuscript*.docx
+manuscript*.pdf
+manuscript*.txt
+Manuscript*.docx
+Manuscript*.pdf
+*_text.txt
+EDITING_REPORT.txt
+*.md~

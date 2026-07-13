@@ -1,0 +1,21 @@
+﻿# VAE Configuration for SPE10 2D
+model:
+  latent_dim: 256
+  encoder_channels: [64, 128, 256, 512]
+  decoder_channels: [512, 256, 128, 64, 1]
+  kernel_size: 4
+  stride: 2
+  padding: 1
+  
+training:
+  beta: 0.5
+  learning_rate: 1.0e-4
+  batch_size: 64
+  epochs: 200
+  early_stopping_patience: 20
+  
+data:
+  grid_size: [220, 60]
+  train_samples: 8000
+  val_samples: 1000
+  test_samples: 1000

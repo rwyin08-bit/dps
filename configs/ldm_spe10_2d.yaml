@@ -1,0 +1,19 @@
+﻿# LDM Configuration for SPE10 2D
+model:
+  latent_dim: 256
+  base_channels: 128
+  channel_multipliers: [1, 2, 4, 8]
+  attention_resolutions: [8, 16]
+  num_attention_heads: 8
+  num_res_blocks: 2
+  
+diffusion:
+  timesteps: 1000
+  noise_schedule: cosine
+  ddim_steps: 250
+  
+training:
+  learning_rate: 1.0e-4
+  weight_decay: 0.01
+  batch_size: 32
+  training_steps: 500000
