@@ -1,0 +1,16 @@
+{
+  "experiment": "01",
+  "results": [
+    {
+      "grid_size": 16,
+      "latent_dim": 32,
+      "n_mcmc": 5000,
+      "n_dps": 1000,
+      "energy_distance_d2": 0.02361433880966457,
+      "energy_distance_95ci": [
+        0.0162021765866877,
+        0.03135760486442458
+      ],
+      "r_hat": 0.9997308471712358,
+      "ess": 4952.81180963026,
+      "converged": 

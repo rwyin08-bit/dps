@@ -1,0 +1,30 @@
+{
+  "small": {
+    "grid": "16x11",
+    "n_total": 30000,
+    "n_burnin": 5000,
+    "n_raw": 25000,
+    "n_thinned": 2500,
+    "thin_interval": 10,
+    "accept_rate": 0.8171,
+    "time_min": 0.0,
+    "ess_raw": 0,
+    "ess_thinned": 3,
+    "posterior_mean": 76.58158287920182,
+    "posterior_std": 96.71431067646797
+  },
+  "medium": {
+    "grid": "32x22",
+    "n_total": 15000,
+    "n_burnin": 3000,
+    "n_raw": 12000,
+    "n_thinned": 1500,
+    "thin_interval": 8,
+    "accept_rate": 0.6378,
+    "time_min": 0.0,
+    "ess_raw": 0,
+    "ess_thinned": 1,
+    "posterior_mean": 73.48062698931692,
+    "posterior_std": 36.41427546110485
+  }
+}
