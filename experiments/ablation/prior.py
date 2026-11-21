@@ -39,6 +39,26 @@ class MaternGP:
         x2 = (np.asarray(x_flat).ravel() - self.mu).reshape(self.nx, self.ny)
         return np.real(np.fft.ifft2(np.fft.fft2(x2) / self._spec)).ravel()
 
+    def apply_Csqrt(self, v_flat):
+        """C^{1/2} v (no mean shift)."""
+        v = np.asarray(v_flat).ravel().reshape(self.nx, self.ny)
+        return np.real(np.fft.ifft2(np.sqrt(self._spec) * np.fft.fft2(v))).ravel()
+
+    def apply_Cinvsqrt(self, v_flat):
+        """C^{-1/2} v (no mean shift)."""
+        v = np.asarray(v_flat).ravel().reshape(self.nx, self.ny)
+        return np.real(np.fft.ifft2(np.fft.fft2(v) / np.sqrt(self._spec))).ravel()
+
+    def whiten(self, x_flat):
+        """w = C^{-1/2}(x - mu) (standard-normal preconditioned coordinates)."""
+        d = (np.asarray(x_flat).ravel() - self.mu).reshape(self.nx, self.ny)
+        return np.real(np.fft.ifft2(np.fft.fft2(d) / np.sqrt(self._spec))).ravel()
+
+    def unwhiten(self, w_flat):
+        """x = mu + C^{1/2} w (inverse of whiten)."""
+        w = np.asarray(w_flat).ravel().reshape(self.nx, self.ny)
+        return (self.mu + np.real(np.fft.ifft2(np.sqrt(self._spec) * np.fft.fft2(w))).ravel())
+
     def log_p(self, x_flat):
         d = np.asarray(x_flat).ravel() - self.mu
         Cinv_d = self._apply_Cinv(d)
@@ -49,11 +69,6 @@ class MaternGP:
         return -self._apply_Cinv(np.asarray(x_flat).ravel())
 
     def sample(self, rng):
-        """Draw one field from the prior."""
-        w = rng.standard_normal((self.nx, self.ny))
-        s = np.sqrt(self._spec) * np.fft.fft2(w)
-        field = np.real(np.fft.ifft2(s))
-        # normalize variance to sigma2
-        field = field - field.mean()
-        field = field / (field.std() + 1e-12) * np.sqrt(self.sigma2)
-        return (field + self.mu).ravel()
+        """Draw one field from the prior (via standard-normal whitening)."""
+        w = rng.standard_normal(self.nx * self.ny)
+        return self.unwhiten(w)

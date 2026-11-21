@@ -23,7 +23,7 @@ from scipy.sparse.linalg import splu
 class SteadyPressure:
     """Steady-state pressure forward model with analytic adjoint gradient."""
 
-    def __init__(self, nx, ny, dx=30.0, dy=30.0, h=10.0, reg=1e-6):
+    def __init__(self, nx, ny, dx=30.0, dy=30.0, h=10.0, reg=1e-8):
         self.nx = nx
         self.ny = ny
         self.n = nx * ny
@@ -33,7 +33,7 @@ class SteadyPressure:
         # geometric transmissibility factors (per unit mobility)
         self.gx = dy * h / dx   # x-direction edge factor
         self.gy = dx * h / dy   # y-direction edge factor
-        self.reg = reg          # small diagonal regularizer to pin the null space
+        self.reg = reg          # relative diagonal regularizer (pins the null space)
         self._edges = self._build_edge_list()
 
     def _build_edge_list(self):
@@ -63,8 +63,10 @@ class SteadyPressure:
             data.append(-t); r_idx.append(i); c_idx.append(j)
             data.append(-t); r_idx.append(j); c_idx.append(i)
             d[i] += t; d[j] += t
-        # small diagonal regularizer pins the constant-pressure null space (Neumann)
-        data += list(d + self.reg)
+        # diagonal regularizer pins the constant-pressure null space (Neumann);
+        # scaled relative to the mean diagonal so it is robust across grids
+        reg_abs = self.reg * (d.mean() + 1e-12)
+        data += list(d + reg_abs)
         r_idx += list(np.arange(self.n))
         c_idx += list(np.arange(self.n))
         A = csr_matrix((data, (r_idx, c_idx)), shape=(self.n, self.n))

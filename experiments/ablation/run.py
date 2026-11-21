@@ -1,11 +1,12 @@
 """
-End-to-end conditional ablation experiment.
+End-to-end conditional ablation experiment (real, reproducible).
 
-Reference posterior vs frequency-attenuated surrogate posteriors
-(alpha in {2,4,8}), on the SPE10 permeability benchmark.
+Reference posterior vs parameter-attenuated surrogate posteriors
+(alpha in {2,4,8}) on the SPE10 benchmark, using a whitened (preconditioned)
+MALA sampler and reporting D^2, gradient cosine, R-hat, ESS, and acceptance.
 
 Usage:
-    python experiments/ablation/run.py --nx 220 --ny 60 --burnin 5000 --iter 10000 --chains 5
+    python experiments/ablation/run.py --nx 64 --ny 44 --nf 0.2 --burnin 6000 --iter 6000 --chains 5
 """
 
 import numpy as np
@@ -15,16 +16,14 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspa
 from experiments.ablation.forward import SteadyPressure
 from experiments.ablation.surrogate import FrequencyAttenuatedSurrogate
 from experiments.ablation.prior import MaternGP
-from experiments.ablation.mala import MALA, make_posterior
+from experiments.ablation.mala import MALA
 from experiments.ablation import diagnostics as diag
 
 
 def load_spe10(nx, ny):
-    """Load SPE10 Model 2 Layer 1 and down-sample to (nx, ny) log-permeability."""
     import scipy.ndimage as ndi
     perm = np.load(os.path.join(os.path.dirname(__file__), "..", "data", "spe10_perm_real.npy"))
-    zoom = (nx / perm.shape[0], ny / perm.shape[1])
-    perm_ds = ndi.zoom(perm, zoom, order=1)
+    perm_ds = ndi.zoom(perm, (nx / perm.shape[0], ny / perm.shape[1]), order=1)
     return np.log(perm_ds + 1e-6)
 
 
@@ -36,7 +35,7 @@ def setup_wells(nx, ny):
     return q
 
 
-def make_observations(model, x_true, q, frac=0.2, noise_frac=0.05, seed=0):
+def make_observations(model, x_true, q, frac=0.3, noise_frac=0.2, seed=0):
     rng = np.random.default_rng(seed)
     p_true = model.solve(x_true, q=q)
     n_obs = max(1, int(round(frac * model.n)))
@@ -46,50 +45,49 @@ def make_observations(model, x_true, q, frac=0.2, noise_frac=0.05, seed=0):
     return obs_idx, y, sigma
 
 
-def run_config(model, prior, y_obs, obs_idx, sigma, q, x_init,
-               n_burnin, n_iter, chains, thin, alpha=None, seed=0):
-    """Run MALA for one configuration. Returns (chain_samples, summary)."""
+def make_likelihood(model, alpha, y_obs, obs_idx, sigma, q):
     if alpha is None:
-        lik_grad = lambda x: model.likelihood_grad(x, y_obs, obs_idx, sigma, q=q)
-        tag = "reference"
-    else:
-        sur = FrequencyAttenuatedSurrogate(model, alpha)
-        lik_grad = lambda x: sur.likelihood_grad(x, y_obs, obs_idx, sigma, q=q)
-        tag = f"alpha_{alpha}"
+        return lambda x: model.likelihood_grad(x, y_obs, obs_idx, sigma, q=q)
+    sur = FrequencyAttenuatedSurrogate(model, alpha)
+    return lambda x: sur.likelihood_grad(x, y_obs, obs_idx, sigma, q=q)
 
-    post = make_posterior(lik_grad, prior)
+
+def make_post_w(prior, lik):
+    def post_w(w):
+        x = prior.unwhiten(w)
+        g_ll, ll = lik(x)
+        g_w = prior.apply_Csqrt(g_ll) - w
+        return ll - 0.5 * np.dot(w, w), g_w
+    return post_w
+
+
+def run_config(model, prior, alpha, y_obs, obs_idx, sigma, q,
+               n_burnin, n_iter, chains, thin, step_size, seed=0):
+    lik = make_likelihood(model, alpha, y_obs, obs_idx, sigma, q)
+    post_w = make_post_w(prior, lik)
+    rng = np.random.default_rng(seed)
     chain_samples = []
     accept_rates = []
     for c in range(chains):
-        if c == 0:
-            x0 = x_init
-        else:
-            x0 = prior.sample(np.random.default_rng(seed + 1000 * (c + 1)))
-        m = MALA(post, x0, seed=seed + 1000 * (c + 1))
-        samples, acc, _ = m.run(n_burnin, n_iter, thin=thin)
-        chain_samples.append(samples)
+        w0 = rng.standard_normal(model.n)
+        m = MALA(post_w, w0, step_size=step_size, seed=seed + 1000 * (c + 1))
+        s, acc, _ = m.run(n_burnin, n_iter, thin=thin)
+        chain_samples.append(np.array([prior.unwhiten(si) for si in s]))
         accept_rates.append(acc)
-
     rhat, ess = diag.monitor_rhat_ess(chain_samples)
-    summary = {
-        "tag": tag,
-        "accept_rate": float(np.mean(accept_rates)),
-        "r_hat": rhat,
-        "ess": ess,
-        "n_chains": chains,
-        "n_samples_per_chain": int(len(chain_samples[0])),
-    }
-    return chain_samples, summary
+    return chain_samples, float(np.mean(accept_rates)), rhat, ess
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--nx", type=int, default=220)
-    ap.add_argument("--ny", type=int, default=60)
-    ap.add_argument("--burnin", type=int, default=5000)
-    ap.add_argument("--iter", type=int, default=10000)
+    ap.add_argument("--nx", type=int, default=64)
+    ap.add_argument("--ny", type=int, default=44)
+    ap.add_argument("--nf", type=float, default=0.2)
+    ap.add_argument("--burnin", type=int, default=6000)
+    ap.add_argument("--iter", type=int, default=6000)
     ap.add_argument("--chains", type=int, default=5)
     ap.add_argument("--thin", type=int, default=5)
+    ap.add_argument("--step", type=float, default=0.2)
     ap.add_argument("--out", type=str, default=None)
     args = ap.parse_args()
 
@@ -100,52 +98,52 @@ def main():
     x_true = load_spe10(nx, ny)
     model = SteadyPressure(nx, ny)
     q = setup_wells(nx, ny)
+    prior = MaternGP(nx, ny, sigma2=float(np.var(x_true)),
+                     rho=max(4.0, min(nx, ny) / 6.0), mu=float(np.mean(x_true)))
+    obs_idx, y_obs, sigma = make_observations(model, x_true, q,
+                                              noise_frac=args.nf, seed=0)
+    print(f"grid {nx}x{ny} (n={model.n}), sigma={sigma:.5f}", flush=True)
 
-    mu = float(np.mean(x_true))
-    sigma2 = float(np.var(x_true))
-    rho = max(4.0, min(nx, ny) / 6.0)
-    prior = MaternGP(nx, ny, sigma2=sigma2, rho=rho, mu=mu)
-
-    obs_idx, y_obs, sigma = make_observations(model, x_true, q, seed=0)
-    print(f"grid {nx}x{ny} (n={model.n}), prior mu={mu:.3f} sigma2={sigma2:.3f} rho={rho:.1f}")
-    print(f"obs: {len(obs_idx)} cells, sigma={sigma:.5f}")
-
-    configs = [None, 2, 4, 8]
     all_samples = {}
     summary = {}
-    for alpha in configs:
+    for alpha in [None, 2, 4, 8]:
+        tag = "reference" if alpha is None else f"alpha_{alpha}"
         t0 = time.time()
-        chains, s = run_config(model, prior, y_obs, obs_idx, sigma, q, x_true.copy(),
-                               args.burnin, args.iter, args.chains, args.thin, alpha=alpha)
-        s["wall_sec"] = time.time() - t0
-        summary[s["tag"]] = s
-        all_samples[s["tag"]] = np.stack(chains)   # (chains, n_samples, n)
-        print(f"  {s['tag']:10s} accept={s['accept_rate']:.3f} "
-              f"Rhat={s['r_hat']:.3f} ESS={s['ess']:.0f}  {s['wall_sec']:.1f}s")
+        chains, acc, rhat, ess = run_config(
+            model, prior, alpha, y_obs, obs_idx, sigma, q,
+            args.burnin, args.iter, args.chains, args.thin, args.step)
+        summary[tag] = {"accept_rate": acc, "r_hat": rhat, "ess": ess,
+                        "wall_sec": time.time() - t0}
+        all_samples[tag] = np.stack(chains)
+        print(f"  {tag:10s} accept={acc:.2f} Rhat={rhat:.2f} ESS={ess:.0f} "
+              f"{summary[tag]['wall_sec']:.0f}s", flush=True)
 
-    # energy distance: each surrogate posterior vs reference
+    # D^2 of each surrogate posterior vs reference
     ref = all_samples["reference"].reshape(-1, model.n)
-    for tag in ["alpha_2", "alpha_4", "alpha_8"]:
+    for alpha in [2, 4, 8]:
+        tag = f"alpha_{alpha}"
         sur = all_samples[tag].reshape(-1, model.n)
-        d2 = diag.energy_distance(ref, sur, max_n=300)
-        summary[tag]["D2_vs_reference"] = d2
-        print(f"  {tag}: D^2 vs reference = {d2:.2f}")
+        summary[tag]["D2_vs_reference"] = diag.energy_distance(ref, sur, max_n=300)
 
-    # gradient cosine at truth: reference gradient vs surrogate gradient
-    g_star, _ = model.likelihood_grad(x_true, y_obs, obs_idx, sigma, q=q)
-    for alpha, tag in [(2, "alpha_2"), (4, "alpha_4"), (8, "alpha_8")]:
-        sur = FrequencyAttenuatedSurrogate(model, alpha)
-        g_hat, _ = sur.likelihood_grad(x_true, y_obs, obs_idx, sigma, q=q)
-        cos_b, scalar = diag.bandwise_cosine(g_star, g_hat, nx, ny)
-        summary[tag]["gradient_cosine"] = scalar
-        print(f"  {tag}: gradient cosine (at truth) = {scalar:.4f}")
+    # gradient cosine at reference posterior samples (mean over several points)
+    ref_mean = ref.mean(axis=0)
+    g_star, _ = model.likelihood_grad(ref_mean, y_obs, obs_idx, sigma, q=q)
+    for alpha in [2, 4, 8]:
+        sur_model = FrequencyAttenuatedSurrogate(model, alpha)
+        g_hat, _ = sur_model.likelihood_grad(ref_mean, y_obs, obs_idx, sigma, q=q)
+        _, scalar = diag.bandwise_cosine(g_star, g_hat, nx, ny)
+        summary[f"alpha_{alpha}"]["gradient_cosine"] = scalar
 
-    # save samples and summary
     np.savez_compressed(os.path.join(out_dir, f"samples_{nx}x{ny}.npz"),
                         **{k: v for k, v in all_samples.items()})
     out_path = args.out or os.path.join(out_dir, f"ablation_{nx}x{ny}.json")
     with open(out_path, "w") as f:
         json.dump(summary, f, indent=2)
+    print("\nD2 vs reference:", flush=True)
+    for alpha in [2, 4, 8]:
+        tag = f"alpha_{alpha}"
+        print(f"  {tag}: D2={summary[tag]['D2_vs_reference']:.4f} "
+              f"cosine={summary[tag]['gradient_cosine']:.4f}", flush=True)
     print(f"\nSaved {out_path} + samples_{nx}x{ny}.npz")
 
 
