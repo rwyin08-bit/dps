@@ -16,6 +16,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt}
 \setstretch{1.5}
+\renewcommand{\thetable}{\Roman{table}}
 
 \title{\bfseries A Conditional Ablation Framework for Characterizing Surrogate-Induced Error in Gradient-Based Bayesian Inversion}
 \author{Rongwang Yin$^{1}$, Shaowei Zhang$^{2,*}$\\[4pt]
@@ -28,15 +29,23 @@
 \maketitle
 
 \begin{abstract}
-\noindent
-Bayesian inversion of PDE-constrained problems increasingly relies on learned surrogates, yet surrogate-induced error is almost always assessed as a single lump sum. This paper develops a conditional ablation framework that \add{isolates how a \emph{single} surrogate property, the spectral attenuation of the forward operator, drives posterior degradation}. Sensitivity is measured through three complementary diagnostics: energy distance between posterior ensembles (distribution level), cosine similarity of the log-likelihood gradient (gradient level), and cross-spectral Wiener analysis (spectral level).
+\noindent\textbf{Purpose}\\
+Bayesian inversion of PDE-constrained problems increasingly relies on learned surrogates, yet surrogate-induced error is almost always assessed as a single lump sum. This paper develops a conditional ablation framework that \add{isolates how a \emph{single} surrogate property, the spectral attenuation of the forward operator, drives posterior degradation}.
 
-A controlled frequency-attenuated surrogate with an exactly known roll-off is applied to steady-state pressure inversion on the SPE10 permeability benchmark, with multiple independent MALA chains per configuration. Three patterns emerge across attenuation levels $\alpha\in\{2,4,8\}$. Stronger frequency attenuation consistently enlarges the energy distance to the reference posterior, and the gradient cosine similarity between surrogate-driven and reference gradients falls monotonically with attenuation. \add{A cross-spectral Wiener calibration raises the gradient cosine from $0.83$ to $0.88$ on held-out data, confirming that compensation succeeds in the high-coherence frequency bands that carry the most reference energy.}
+\noindent\textbf{Design/methodology/approach}\\
+Sensitivity is measured through three complementary diagnostics: energy distance between posterior ensembles, cosine similarity of the log-likelihood gradient, and cross-spectral Wiener analysis. A controlled frequency-attenuated surrogate with an exactly known roll-off is applied to steady-state pressure inversion on the SPE10 permeability benchmark, with multiple independent chains per configuration.
 
+\noindent\textbf{Findings}\\
+Stronger frequency attenuation consistently enlarges the energy distance to the reference posterior, and the gradient cosine similarity between surrogate-driven and reference gradients falls monotonically with attenuation. \add{A cross-spectral Wiener calibration raises the gradient cosine from $0.83$ to $0.88$ on held-out data, confirming that compensation succeeds in the high-coherence frequency bands that carry the most reference energy.}
+
+\noindent\textbf{Originality/value}\\
 Conditional ablation turns surrogate error from a single number into a structured diagnostic that directs engineering effort toward the most impactful surrogate property. The framework is demonstrated on a CPU prototype and is architected for extension to GPU-trained neural surrogates and full-physics reservoir simulators. All code and protocols are released as open source.
 
 \medskip
 \noindent\textbf{Keywords:} Bayesian inversion; surrogate modeling; ablation analysis; uncertainty quantification
+
+\medskip
+\noindent\textbf{Paper type:} Research paper
 \end{abstract}
 
 \section{Introduction}
