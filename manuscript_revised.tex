@@ -18,7 +18,7 @@
 \setstretch{1.5}
 \renewcommand{\thetable}{\Roman{table}}
 
-\title{\bfseries A Conditional Ablation Framework for Characterizing Surrogate-Induced Error in Gradient-Based Bayesian Inversion}
+\title{\bfseries Conditional Ablation of Surrogate Error in Bayesian Inversion}
 \author{Rongwang Yin$^{1}$, Shaowei Zhang$^{2,*}$\\[4pt]
 \small $^1$Basic Experiment and Training Center, Hefei University, Hefei 230601, P.R. China\\
 \small $^2$School of Computer Engineering, AnHui WenDa University of Information Engineering, HeFei 231201, P.R. China\\
@@ -108,7 +108,7 @@ All experiments use multiple independent MALA chains per configuration. We repor
 
 \section{Experiments}
 
-We use SPE10 Model 2 Layer 1 permeability, \add{down-sampled to $8\times5$ and $16\times11$ grids}. The forward model is the steady-state pressure equation $\nabla\cdot(K\nabla p)=q$ solved with scipy sparse direct solvers, with a five-spot well pattern. The prior is a Gaussian process with Mat\'ern-$3/2$ covariance calibrated to the down-sampled SPE10 log-permeability statistics, sampled in whitened coordinates. \add{Observation noise is $20\%$ of signal amplitude, applied to $30\%$ of grid cells}. MALA uses adaptive step-size tuning and independent chains per configuration. Three attenuation levels are tested: $\alpha\in\{2,4,8\}$; the reference posterior uses the full forward model directly.
+We use SPE10 Model 2 Layer 1 permeability (Christie and Blunt, 2001), \add{down-sampled to $8\times5$ and $16\times11$ grids}. The forward model is the steady-state pressure equation $\nabla\cdot(K\nabla p)=q$ solved with scipy sparse direct solvers, with a five-spot well pattern. The prior is a Gaussian process with Mat\'ern-$3/2$ covariance calibrated to the down-sampled SPE10 log-permeability statistics, sampled in whitened coordinates. \add{Observation noise is $20\%$ of signal amplitude, applied to $30\%$ of grid cells}. MALA uses adaptive step-size tuning and independent chains per configuration. Three attenuation levels are tested: $\alpha\in\{2,4,8\}$; the reference posterior uses the full forward model directly.
 
 \subsection{Results}
 
@@ -204,7 +204,7 @@ The Wiener filter's behavior follows from its spectral form. In high-coherence b
 
 \subsection{Relation to Prior Work}
 
-The framework connects to several methodological threads. In machine learning, component ablation is a standard tool for understanding what drives performance; we adapt that logic to the Bayesian setting. In inverse problems, the framework fills a gap between coarse end-to-end validation and the theoretical error bounds for specific surrogate classes (Kaipio and Somersalo, 2007). \add{It is also related to surrogate-based Bayesian inversion and model-discrepancy analysis (Kennedy and O'Hagan, 2001), to adaptive and goal-oriented surrogate construction (Li and Marzouk, 2014), and to posterior approximation-error analysis (Cotter et al., 2010).} Unlike these, which aim to \emph{reduce} surrogate error or quantify a posterior for a specific surrogate, the present work is a \emph{diagnostic}: it measures how a single surrogate property drives posterior degradation, so that surrogate development can be targeted. The frequency-attenuation mechanism also connects to the spectral bias of neural networks (Rahaman et al., 2019), which preferentially learn low-frequency components; the key difference here is control, since the attenuation is set by a parameter rather than learned.
+The framework connects to several methodological threads. In machine learning, component ablation is a standard tool for understanding what drives performance; we adapt that logic to the Bayesian setting. In inverse problems, the framework fills a gap between coarse end-to-end validation and the theoretical error bounds for specific surrogate classes (Kaipio and Somersalo, 2007). \add{It is also related to surrogate-based Bayesian inversion and model-discrepancy analysis (Kennedy and O'Hagan, 2001), to adaptive and goal-oriented surrogate construction (Li and Marzouk, 2014), and to posterior approximation-error analysis (Cotter et al., 2009).} Unlike these, which aim to \emph{reduce} surrogate error or quantify a posterior for a specific surrogate, the present work is a \emph{diagnostic}: it measures how a single surrogate property drives posterior degradation, so that surrogate development can be targeted. The frequency-attenuation mechanism also connects to the spectral bias of neural networks (Rahaman et al., 2019), which preferentially learn low-frequency components; the key difference here is control, since the attenuation is set by a parameter rather than learned.
 
 \subsection{Limitations}
 \label{sec:limitations}
@@ -233,13 +233,11 @@ The SPE10 Model 2 permeability field is publicly available at \url{https://githu
 
 \bibitem{chung2023} Chung, H., Kim, J., McCann, M.T., Klasky, M.L. and Ye, J.C. (2023), ``Diffusion posterior sampling for general noisy inverse problems'', \emph{International Conference on Learning Representations (ICLR)}.
 
-\bibitem{cotter2010} Cotter, S.L., Dashti, M., Robinson, J.C. and Stuart, A.M. (2010), ``Bayesian inverse problems for functions and applications to fluid mechanics'', \emph{Inverse Problems}, Vol. 25 No. 11, 115008.
+\bibitem{cotter2009} Cotter, S.L., Dashti, M., Robinson, J.C. and Stuart, A.M. (2009), ``Bayesian inverse problems for functions and applications to fluid mechanics'', \emph{Inverse Problems}, Vol. 25 No. 11, 115008.
 
 \bibitem{cranmer2020} Cranmer, K., Brehmer, J. and Louppe, G. (2020), ``The frontier of simulation-based inference'', \emph{Proceedings of the National Academy of Sciences}, Vol. 117 No. 48, pp. 30055--30062.
 
-\bibitem{ho2020} Ho, J., Jain, A. and Abbeel, P. (2020), ``Denoising diffusion probabilistic models'', \emph{Advances in Neural Information Processing Systems (NeurIPS)}, Vol. 33, pp. 6840--6851.
-
-\bibitem{kaipio2007} Kaipio, J. and Somersalo, E. (2007), ``Statistical inverse problems: discretization, model reduction, and inverse crimes'', \emph{Journal of Computational and Applied Mathematics}, Vol. 198 No. 2, pp. 493--504.
+\bibitem{kaipio2007} Kaipio, J. and Somersalo, E. (2007), ``Statistical inverse problems: discretization, model reduction and inverse crimes'', \emph{Journal of Computational and Applied Mathematics}, Vol. 198 No. 2, pp. 493--504.
 
 \bibitem{kennedy2001} Kennedy, M.C. and O'Hagan, A. (2001), ``Bayesian calibration of computer models'', \emph{Journal of the Royal Statistical Society: Series B}, Vol. 63 No. 3, pp. 425--464.
 

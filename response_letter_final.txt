@@ -1,8 +1,7 @@
 Response to Reviewers — Revision R1
 
-Manuscript: A Conditional Ablation Framework for Characterizing
-Surrogate-Induced Error in Gradient-Based Bayesian Inversion Journal:
-Engineering Computations Decision: Major Revision
+Manuscript: Conditional Ablation of Surrogate Error in Bayesian
+Inversion Journal: Engineering Computations Decision: Major Revision
 
 All changes requested by the reviewers are highlighted in red in the
 revised manuscript. We address every point below.
