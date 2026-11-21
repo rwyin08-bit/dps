@@ -55,13 +55,27 @@ Conditional ablation turns surrogate error from a single number into a structure
 
 Bayesian inversion of PDE-constrained problems requires characterizing the posterior distribution $p(x|y)\propto p(y|x)\,p(x)$ over high-dimensional parameter fields given indirect, noisy observations. In subsurface flow modeling, the canonical example is reservoir history matching: inferring permeability and porosity fields from production data. The forward model $\mathcal{F}:x\mapsto y$ solves coupled nonlinear PDEs, requiring minutes to hours per evaluation, making exhaustive posterior exploration via Markov chain Monte Carlo (MCMC) computationally prohibitive.
 
-Recent work has explored learned surrogates to accelerate Bayesian inversion: Fourier neural operators (Li et al., 2021), diffusion-based priors (Chung et al., 2023; Song et al., 2021), and simulation-based inference (Cranmer et al., 2020). Each advances practical gradient-based Bayesian inversion, but evaluating such pipelines end-to-end entangles several distinct error sources: surrogate approximation error, prior model mismatch, sampling bias, and finite-sample noise are all lumped into a single quality metric. When the final posterior looks wrong, the practitioner cannot trace the problem to its root cause.
+Learned surrogates bring practical gradient-based Bayesian inversion closer to routine use, but evaluating such pipelines end-to-end entangles several distinct error sources: surrogate approximation error, prior model mismatch, sampling bias, and finite-sample noise are all lumped into a single quality metric. When the final posterior looks wrong, the practitioner cannot trace the problem to its root cause.
 
-We address this diagnostic gap with a conditional ablation framework, inspired by the ablation studies standard in machine learning (Rahaman et al., 2019). The idea is to vary one surrogate property at a time while holding the others fixed, and to measure how the posterior responds. The resulting sensitivity profile identifies which surrogate properties matter most and where engineering effort should be concentrated.
+We address this diagnostic gap with a conditional ablation framework. The idea is to vary one surrogate property at a time while holding the others fixed, and to measure how the posterior responds. The resulting sensitivity profile identifies which surrogate properties matter most and where engineering effort should be concentrated.
 
 \textbf{Contributions.} (1) A formal conditional-ablation protocol for surrogate-guided Bayesian inversion, spanning distribution-level, gradient-level, and spectral diagnostics. (2) A controlled experimental design (a frequency-attenuated surrogate with an exactly known roll-off) that eliminates the confounds inherent in comparing different trained neural surrogates. (3) A cross-spectral Wiener calibration, \add{proposed with a held-out gradient-alignment validation}. (4) An open-source reference implementation tested on the SPE10 permeability benchmark.
 
 \textbf{Scope and limitations.} This is a methodological framework paper, not an applied reservoir-characterization study. The surrogate is a deliberately simplified frequency-attenuated operator, so the attenuation level is a controlled experimental variable rather than a learned property. \add{The study is a one-dimensional spectral-attenuation sensitivity analysis: it sweeps a single, exactly known roll-off parameter and characterizes its effect on the posterior.} All computation runs on CPU with publicly available data; extending the framework to GPU-trained neural surrogates and full-physics simulators is a natural next step.
+
+\section{Related Work}
+
+\subsection{Learned surrogates for Bayesian inversion}
+
+Fourier neural operators (Li et al., 2021) and their enhanced variants (Wen et al., 2022) learn mappings between function spaces. Generative priors built on variational autoencoders (Kingma and Welling, 2014), generative adversarial networks (Laloy et al., 2018), and diffusion models (Ho et al., 2020; Chung et al., 2023; Song et al., 2021) supply rich geological constraints, and simulation-based inference (Cranmer et al., 2020) amortizes posterior estimation across observations. Surrogate-assisted history matching with such operators has been demonstrated on benchmark reservoirs (Etienam et al., 2024).
+
+\subsection{Surrogate error and the posterior}
+
+When a surrogate stands in for the forward model, its error propagates into the posterior. Bayesian model discrepancy quantifies the simulator-to-reality gap (Kennedy and O'Hagan, 2001); adaptive surrogate construction targets accuracy where the posterior needs it (Li and Marzouk, 2014); and posterior approximation-error analysis characterizes the effect of discretization and model reduction (Cotter et al., 2009; Kaipio and Somersalo, 2007). These works reduce surrogate error or quantify a posterior for a specific surrogate.
+
+\subsection{Ablation and spectral analysis}
+
+The present work also builds on two diagnostics literatures. Component ablation is a standard machine-learning tool for identifying what drives model performance, and the spectral bias of neural networks shows that trained surrogates preferentially learn low-frequency components (Rahaman et al., 2019). The key difference here is control: the attenuation is set by a parameter rather than learned, so the effect of spectral truncation on the posterior can be isolated and measured directly.
 
 \section{Method}
 
@@ -205,18 +219,9 @@ The Wiener filter's behavior follows from its spectral form. In high-coherence b
 
 \section{Discussion}
 
-\subsection{Relation to Prior Work}
+\subsection{Limitations and Extensions}
 
-The framework connects to several methodological threads. In machine learning, component ablation is a standard tool for understanding what drives performance; we adapt that logic to the Bayesian setting. In inverse problems, the framework fills a gap between coarse end-to-end validation and the theoretical error bounds for specific surrogate classes (Kaipio and Somersalo, 2007). \add{It is also related to surrogate-based Bayesian inversion and model-discrepancy analysis (Kennedy and O'Hagan, 2001), to adaptive and goal-oriented surrogate construction (Li and Marzouk, 2014), and to posterior approximation-error analysis (Cotter et al., 2009).} Unlike these, which aim to \emph{reduce} surrogate error or quantify a posterior for a specific surrogate, the present work is a \emph{diagnostic}: it measures how a single surrogate property drives posterior degradation, so that surrogate development can be targeted. The frequency-attenuation mechanism also connects to the spectral bias of neural networks (Rahaman et al., 2019), which preferentially learn low-frequency components; the key difference here is control, since the attenuation is set by a parameter rather than learned.
-
-\subsection{Limitations}
-\label{sec:limitations}
-
-The study is a controlled proof of concept: it uses a frequency-attenuated operator rather than a trained neural surrogate, steady-state pressure rather than multiphase flow, and reduced-resolution grids. These choices isolate the spectral attenuation mechanism cleanly. Extending the framework to trained neural surrogates, multiphase flow, and production-resolution grids, together with a full calibrated-MALA validation, are the natural next steps.
-
-\subsection{Extensions}
-
-Natural extensions include multi-factor ablation (varying two surrogate properties at once), replacing the controlled frequency-attenuated surrogate with an actual trained neural operator (FNO or DeepONet), and a Bayesian treatment of the calibration step that propagates calibration uncertainty into the posterior.
+The study is a controlled proof of concept: it uses a frequency-attenuated operator rather than a trained neural surrogate, steady-state pressure rather than multiphase flow, and reduced-resolution grids. These choices isolate the spectral attenuation mechanism cleanly. Natural extensions include multi-factor ablation (varying two surrogate properties at once), replacing the controlled frequency-attenuated surrogate with an actual trained neural operator (FNO or DeepONet), and a Bayesian treatment of the calibration step that propagates calibration uncertainty into the posterior.
 
 \section{Conclusion}
 
@@ -240,9 +245,17 @@ The SPE10 Model 2 permeability field is publicly available at \url{https://githu
 
 \bibitem{cranmer2020} Cranmer, K., Brehmer, J. and Louppe, G. (2020), ``The frontier of simulation-based inference'', \emph{Proceedings of the National Academy of Sciences}, Vol. 117 No. 48, pp. 30055--30062.
 
+\bibitem{etienam2024} Etienam, C., Katterbauer, K., Al-Shehri, A. and Hoteit, I. (2024), ``Reservoir history matching of the Norne field with generative exotic priors and a coupled mixture of experts--PINO forward model'', arXiv:2406.00889.
+
+\bibitem{ho2020} Ho, J., Jain, A. and Abbeel, P. (2020), ``Denoising diffusion probabilistic models'', \emph{Advances in Neural Information Processing Systems (NeurIPS)}, Vol. 33, pp. 6840--6851.
+
 \bibitem{kaipio2007} Kaipio, J. and Somersalo, E. (2007), ``Statistical inverse problems: discretization, model reduction and inverse crimes'', \emph{Journal of Computational and Applied Mathematics}, Vol. 198 No. 2, pp. 493--504.
 
 \bibitem{kennedy2001} Kennedy, M.C. and O'Hagan, A. (2001), ``Bayesian calibration of computer models'', \emph{Journal of the Royal Statistical Society: Series B}, Vol. 63 No. 3, pp. 425--464.
+
+\bibitem{kingma2014} Kingma, D.P. and Welling, M. (2014), ``Auto-encoding variational Bayes'', \emph{International Conference on Learning Representations (ICLR)}.
+
+\bibitem{laloy2018} Laloy, E., H\'erault, R., Jacques, D. and Linde, N. (2018), ``Training-image based geostatistical inversion using a spatial generative adversarial neural network'', \emph{Water Resources Research}, Vol. 54 No. 1, pp. 381--406.
 
 \bibitem{li2021} Li, Z., Kovachki, N., Azizzadenesheli, K., Liu, B., Bhattacharya, K., Stuart, A. and Anandkumar, A. (2021), ``Fourier neural operator for parametric partial differential equations'', \emph{International Conference on Learning Representations (ICLR)}.
 
@@ -255,6 +268,8 @@ The SPE10 Model 2 permeability field is publicly available at \url{https://githu
 \bibitem{szekely2013} Sz\'ekely, G.J. and Rizzo, M.L. (2013), ``Energy statistics: a class of statistics based on distances'', \emph{Journal of Statistical Planning and Inference}, Vol. 143 No. 8, pp. 1249--1272.
 
 \bibitem{szekely2017} Sz\'ekely, G.J. and Rizzo, M.L. (2017), ``The energy of data'', \emph{Annual Review of Statistics and Its Application}, Vol. 4, pp. 447--479.
+
+\bibitem{wen2022} Wen, G., Li, Z., Azizzadenesheli, K., Anandkumar, A. and Benson, S.M. (2022), ``U-FNO--an enhanced Fourier neural operator-based deep-learning model for multiphase flow'', \emph{Advances in Water Resources}, Vol. 163, 104180.
 
 \end{thebibliography}
 
