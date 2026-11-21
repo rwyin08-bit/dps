@@ -72,3 +72,6 @@ experiments/ablation/results/*.npz
 *.fdb_latexmk
 *.out
 *.log
+
+# Local submission packaging (copies of tracked files)
+Revision_Upload/
