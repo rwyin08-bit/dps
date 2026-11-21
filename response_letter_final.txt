@@ -112,7 +112,7 @@ Response: We have addressed the confounding concern directly. The chains
 are now described as independent replicates of the same observation
 differing only in random seed. We report the acceptance rate, the
 maximum R̂ over the posterior field components, and the minimum effective
-sample size for every configuration (new Table 2). Acceptance rates are
+sample size for every configuration (new Table 1). Acceptance rates are
 held inside 0.62–0.65 by adaptive step-size tuning, so the comparison is
 not driven by differing acceptance regimes. The comparison is
 additionally made robust by prior whitening, which removes the
@@ -120,7 +120,7 @@ prior-conditioning confound from the sampler. The conclusions rest on
 the monotone ordering of D² and cosine across attenuation levels, which
 is reproduced across independent runs and two grid resolutions.
 
-Change: Section 2.3; new Table 2 (sampling diagnostics).
+Change: Section 2.3; new Table 1 (sampling diagnostics).
 
 ------------------------------------------------------------------------
 
@@ -135,7 +135,7 @@ the reproducible pipeline, so text, tables, and figures are now
 consistent. The attenuation levels are α ∈ {2, 4, 8} throughout, the
 grids are 8 × 5 and 16 × 11 (down-sampled SPE10), and the reported D²,
 gradient cosine, and sampling diagnostics come from a single set of
-runs. Table 1 reports the energy distance and gradient cosine; Table 2
+runs. Table 2 reports the energy distance and gradient cosine; Table 1
 reports the sampling diagnostics.
 
 Change: Tables 1 and 2; Figures 1–4; Section 3.1.
@@ -212,8 +212,8 @@ standard deviations or confidence intervals of the energy-distance
 estimates.
 
 Response: Done. The acceptance rate, maximum R̂, and minimum ESS are now
-reported for every configuration (Table 2), and the energy-distance and
-cosine values are reported as means over independent chains (Table 1).
+reported for every configuration (Table 1), and the energy-distance and
+cosine values are reported as means over independent chains (Table 2).
 
 Change: Tables 1 and 2.
 
@@ -225,11 +225,11 @@ Reviewer: Figure 4(b) presents the gradient-fidelity ratio for only one
 attenuation level; extend to all three levels.
 
 Response: Done. The gradient cosine is reported for all three
-attenuation levels (Table 1), showing a monotone increase from 0.91 at
+attenuation levels (Table 2), showing a monotone increase from 0.91 at
 α = 2 to 0.99 at α = 8, which links the controlled attenuation level to
 the observed gradient-fidelity and posterior-quality changes.
 
-Change: Table 1; Figure 2.
+Change: Table 2; Figure 2.
 
 ------------------------------------------------------------------------
 

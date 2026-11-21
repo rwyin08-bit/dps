@@ -7,6 +7,7 @@
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{booktabs}
 \usepackage{setspace}
+\usepackage{float}
 \usepackage{xcolor}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 
@@ -137,21 +138,21 @@ Gradient cosine & {\color{red}$0.91$} & {\color{red}$0.97$} & {\color{red}$0.99$
 
 The monotone ordering $\alpha=2>\alpha=4>\alpha=8$ holds at both grid resolutions, and the same ordering is reproduced across independent experimental runs.
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{experiments/ablation/figures/fig1_d2.png}
 \caption{Energy distance $D^{2}$ to the reference posterior as a function of attenuation level, at two grid resolutions. Stronger attenuation (smaller $\alpha$) consistently degrades the posterior.}
 \label{fig:d2}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{experiments/ablation/figures/fig2_cosine.png}
 \caption{Gradient cosine similarity between surrogate-driven and reference gradients as a function of attenuation level (mean $\pm$ std over prior samples).}
 \label{fig:cosine}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{experiments/ablation/figures/fig3_fields.png}
 \caption{Posterior mean permeability fields ($8\times5$). From left: reference, $\alpha=2$, $\alpha=4$, $\alpha=8$. Stronger attenuation yields smoother, blurred channel boundaries.}
@@ -183,7 +184,7 @@ Each calibration pair requires one forward solve and one adjoint solve for $g^{*
 
 The Wiener filter's behavior follows from its spectral form. In high-coherence bands, where the calibration cross-spectrum is well estimated and $|P_{g\hat g}|^{2}\gg\lambda P_{\hat g\hat g}$, the filter approaches an approximate inverse of the effective gradient transfer function and recovers attenuated frequency components. In low-coherence bands, where $\lambda\gg|P_{g\hat g}|$, the gain is shrunk toward zero, suppressing those components rather than attempting unstable inversion. The held-out validation reflects exactly this split: the alignment gain concentrates in the high-coherence bands, while the filter avoids amplifying low-coherence components. This band-selective behavior is the mechanism by which the calibration targets the frequency regimes where surrogate compensation is feasible.
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{experiments/ablation/figures/fig4_calibration.png}
 \caption{Wiener calibration on held-out data: gradient cosine before and after correction, as a function of the attenuation level. The correction raises the alignment in the high-coherence bands.}
