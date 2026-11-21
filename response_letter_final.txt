@@ -9,14 +9,16 @@ revised manuscript. We address every point below.
 
 Cover note to the Editor
 
-We thank the Editor and both reviewers for the detailed and constructive
-assessment. The revision addresses every point raised. In line with the
-comments, we narrowed the central claim to a precisely scoped
-one-dimensional spectral-attenuation sensitivity study; we redefined the
-controlled surrogate to attenuate the parameter field rather than the
-forward output, so that it produces a genuine posterior effect; we added
-a prior-whitening preconditioner that makes the MALA sampler tractable;
-we replaced the reported values with results from a fully reproducible
+We sincerely thank the Editor and both reviewers for the careful reading
+of our manuscript and for the detailed, constructive, and insightful
+comments, which have helped us strengthen the manuscript considerably.
+The revision addresses every point raised. In line with the comments, we
+narrowed the central claim to a precisely scoped one-dimensional
+spectral-attenuation sensitivity study; we redefined the controlled
+surrogate to attenuate the parameter field rather than the forward
+output, so that it produces a genuine posterior effect; we added a
+prior-whitening preconditioner that makes the MALA sampler tractable; we
+replaced the reported values with results from a fully reproducible
 experimental pipeline; we validated the Wiener calibration on held-out
 data; and we expanded the literature positioning and the reproducibility
 statement. Point-by-point responses follow.
