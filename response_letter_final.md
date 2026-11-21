@@ -1,5 +1,6 @@
 # Response to Reviewers — Revision R1
 
+**Date:** 21 November 2026
 **Manuscript:** Conditional Ablation of Surrogate Error in Bayesian Inversion
 **Journal:** Engineering Computations
 **Decision:** Major Revision
@@ -96,7 +97,7 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Reviewer:** Report R-hat and ESS for the surrogate-based chains, and add standard deviations or confidence intervals of the energy-distance estimates.
 
-**Response:** Done. The acceptance rate, maximum $\hat R$, and minimum ESS are now reported for every configuration (Table I), and the energy-distance and cosine values are reported as means over independent chains (Table II).
+**Response:** We have now reported the acceptance rate, maximum $\hat R$, and minimum ESS for every configuration (Table I), and the energy-distance and cosine values as means over independent chains (Table II).
 
 **Change:** Tables I and II.
 
@@ -105,7 +106,7 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Reviewer:** Figure 4(b) presents the gradient-fidelity ratio for only one attenuation level; extend to all three levels.
 
-**Response:** Done. The gradient cosine is reported for all three attenuation levels (Table II), showing a monotone increase from $0.91$ at $\alpha=2$ to $0.99$ at $\alpha=8$, which links the controlled attenuation level to the observed gradient-fidelity and posterior-quality changes.
+**Response:** The gradient cosine is now reported for all three attenuation levels (Table II), showing a monotone increase from $0.91$ at $\alpha=2$ to $0.99$ at $\alpha=8$, which links the controlled attenuation level to the observed gradient-fidelity and posterior-quality changes.
 
 **Change:** Table II; Figure 2.
 
@@ -135,4 +136,10 @@ The original formulation attenuated the pressure field, which is already low-fre
 We also fixed one internal inconsistency found during revision: the equation numbering and the reference list are now complete and consistent. All reviewer-requested changes are highlighted in red in the revised manuscript.
 
 
-*End of response letter.*
+Sincerely,
+
+Rongwang Yin
+
+Shaowei Zhang (Corresponding author)
+School of Computer Engineering, AnHui WenDa University of Information Engineering, HeFei 231201, P.R. China
+E-mail: swzhang189@163.com
