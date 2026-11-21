@@ -125,14 +125,19 @@ def main():
         sur = all_samples[tag].reshape(-1, model.n)
         summary[tag]["D2_vs_reference"] = diag.energy_distance(ref, sur, max_n=300)
 
-    # gradient cosine at reference posterior samples (mean over several points)
-    ref_mean = ref.mean(axis=0)
-    g_star, _ = model.likelihood_grad(ref_mean, y_obs, obs_idx, sigma, q=q)
+    # gradient cosine at prior samples (meaningful points, not the noise-dominated
+    # posterior mean), averaged over several draws
     for alpha in [2, 4, 8]:
         sur_model = FrequencyAttenuatedSurrogate(model, alpha)
-        g_hat, _ = sur_model.likelihood_grad(ref_mean, y_obs, obs_idx, sigma, q=q)
-        _, scalar = diag.bandwise_cosine(g_star, g_hat, nx, ny)
-        summary[f"alpha_{alpha}"]["gradient_cosine"] = scalar
+        cos_vals = []
+        for s in range(30):
+            xp = prior.sample(np.random.default_rng(s))
+            g_star, _ = model.likelihood_grad(xp, y_obs, obs_idx, sigma, q=q)
+            g_hat, _ = sur_model.likelihood_grad(xp, y_obs, obs_idx, sigma, q=q)
+            _, scalar = diag.bandwise_cosine(g_star, g_hat, nx, ny)
+            cos_vals.append(scalar)
+        summary[f"alpha_{alpha}"]["gradient_cosine"] = float(np.mean(cos_vals))
+        summary[f"alpha_{alpha}"]["gradient_cosine_std"] = float(np.std(cos_vals))
 
     np.savez_compressed(os.path.join(out_dir, f"samples_{nx}x{ny}.npz"),
                         **{k: v for k, v in all_samples.items()})

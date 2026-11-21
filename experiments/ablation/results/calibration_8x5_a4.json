@@ -1,0 +1,10 @@
+{
+  "alpha": 4,
+  "n_cal": 300,
+  "n_held": 100,
+  "cosine_before_mean": 0.9560470010892017,
+  "cosine_before_std": 0.18384898420050821,
+  "cosine_after_mean": 0.9190504550518308,
+  "cosine_after_std": 0.17142528943979415,
+  "fit_sec": 0.2126607894897461
+}
