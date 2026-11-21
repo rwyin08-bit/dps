@@ -6,13 +6,11 @@
 
 All changes requested by the reviewers are highlighted in red in the revised manuscript. We address every point below.
 
----
 
 ## Cover note to the Editor
 
 We thank the Editor and both reviewers for the detailed and constructive assessment. The revision addresses every point raised. In line with the comments, we narrowed the central claim to a precisely scoped one-dimensional spectral-attenuation sensitivity study; we redefined the controlled surrogate to attenuate the parameter field rather than the forward output, so that it produces a genuine posterior effect; we added a prior-whitening preconditioner that makes the MALA sampler tractable; we replaced the reported values with results from a fully reproducible experimental pipeline; we validated the Wiener calibration on held-out data; and we expanded the literature positioning and the reproducibility statement. Point-by-point responses follow.
 
----
 
 ## Response to Reviewer 1 (Recommendation: Reject)
 
@@ -24,7 +22,6 @@ We thank the Editor and both reviewers for the detailed and constructive assessm
 
 **Change:** Abstract (opening); Section 1 (Contributions and Scope); Section 5 (Conclusion).
 
----
 
 ### Comment 1.2 — The tested surrogate is not an operational surrogate
 
@@ -38,7 +35,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Section 2.1, Eqs. (3)--(4).
 
----
 
 ### Comment 1.3 — The Wiener calibration is proposed but never validated
 
@@ -48,7 +44,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Abstract; Contributions (3); Section 3.2 (new "Validation" paragraph).
 
----
 
 ### Comment 1.4 — The experimental comparison is confounded by sampler behavior
 
@@ -58,7 +53,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Section 2.3; new Table I (sampling diagnostics).
 
----
 
 ### Comment 1.5 — Figures and tables must be reconciled
 
@@ -68,7 +62,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Tables I and II; Figures 1--4; Section 3.1.
 
----
 
 ### Comment 1.6 — Several estimators are not mathematically well defined
 
@@ -78,7 +71,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Section 3.2, Eq. (8).
 
----
 
 ### Comment 1.7 — The literature review does not establish novelty
 
@@ -88,7 +80,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Section 4.1; References.
 
----
 
 ### Comment 1.8 — The reproducibility claim is unsupported
 
@@ -98,7 +89,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Data and Code Availability.
 
----
 
 ## Response to Reviewer 2 (Recommendation: Minor Revision)
 
@@ -110,7 +100,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Tables I and II.
 
----
 
 ### Comment 2.2 — Spectral analysis across attenuation levels
 
@@ -120,7 +109,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Table II; Figure 2.
 
----
 
 ### Comment 2.3 — Calibration assessment
 
@@ -130,7 +118,6 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Change:** Section 3.2.
 
----
 
 ### Additional Questions
 
@@ -142,12 +129,10 @@ The original formulation attenuated the pressure field, which is already low-fre
 - **Communication.** Parameter notation, figure captions, and numerical values are consistent throughout.
 - **Reproducibility.** The repository link, boundary conditions, observation locations, and prior hyperparameters are specified (Data and Code Availability).
 
----
 
 ## Other changes
 
 We also fixed one internal inconsistency found during revision: the equation numbering and the reference list are now complete and consistent. All reviewer-requested changes are highlighted in red in the revised manuscript.
 
----
 
 *End of response letter.*

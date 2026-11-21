@@ -6,8 +6,6 @@ Inversion Journal: Engineering Computations Decision: Major Revision
 All changes requested by the reviewers are highlighted in red in the
 revised manuscript. We address every point below.
 
-------------------------------------------------------------------------
-
 Cover note to the Editor
 
 We thank the Editor and both reviewers for the detailed and constructive
@@ -21,8 +19,6 @@ we replaced the reported values with results from a fully reproducible
 experimental pipeline; we validated the Wiener calibration on held-out
 data; and we expanded the literature positioning and the reproducibility
 statement. Point-by-point responses follow.
-
-------------------------------------------------------------------------
 
 Response to Reviewer 1 (Recommendation: Reject)
 
@@ -46,8 +42,6 @@ this scope.
 
 Change: Abstract (opening); Section 1 (Contributions and Scope); Section
 5 (Conclusion).
-
-------------------------------------------------------------------------
 
 Comment 1.2 — The tested surrogate is not an operational surrogate
 
@@ -76,8 +70,6 @@ which we state as outside the present scope.
 
 Change: Section 2.1, Eqs. (3)–(4).
 
-------------------------------------------------------------------------
-
 Comment 1.3 — The Wiener calibration is proposed but never validated
 
 Reviewer: Sections 3.2, 3.3 and Algorithm 1 state that no calibrated
@@ -97,8 +89,6 @@ method is designed to produce.
 
 Change: Abstract; Contributions (3); Section 3.2 (new “Validation”
 paragraph).
-
-------------------------------------------------------------------------
 
 Comment 1.4 — The experimental comparison is confounded by sampler behavior
 
@@ -121,8 +111,6 @@ is reproduced across independent runs and two grid resolutions.
 
 Change: Section 2.3; new Table I (sampling diagnostics).
 
-------------------------------------------------------------------------
-
 Comment 1.5 — Figures and tables must be reconciled
 
 Reviewer: Direct contradictions between the text (alpha values 2/4/8),
@@ -138,8 +126,6 @@ runs. Table II reports the energy distance and gradient cosine; Table I
 reports the sampling diagnostics.
 
 Change: Tables I and II; Figures 1–4; Section 3.1.
-
-------------------------------------------------------------------------
 
 Comment 1.6 — Several estimators are not mathematically well defined
 
@@ -158,8 +144,6 @@ low-coherence bands, shrinks the gain toward zero rather than attempting
 unstable inversion.
 
 Change: Section 3.2, Eq. (8).
-
-------------------------------------------------------------------------
 
 Comment 1.7 — The literature review does not establish novelty
 
@@ -181,8 +165,6 @@ be targeted.
 
 Change: Section 4.1; References.
 
-------------------------------------------------------------------------
-
 Comment 1.8 — The reproducibility claim is unsupported
 
 Reviewer: Provide a repository URL and archival DOI, exact version,
@@ -200,8 +182,6 @@ these elements explicitly.
 
 Change: Data and Code Availability.
 
-------------------------------------------------------------------------
-
 Response to Reviewer 2 (Recommendation: Minor Revision)
 
 Comment 2.1 — Sampling convergence and robustness
@@ -216,8 +196,6 @@ cosine values are reported as means over independent chains (Table II).
 
 Change: Tables I and II.
 
-------------------------------------------------------------------------
-
 Comment 2.2 — Spectral analysis across attenuation levels
 
 Reviewer: Figure 4(b) presents the gradient-fidelity ratio for only one
@@ -229,8 +207,6 @@ attenuation levels (Table II), showing a monotone increase from 0.91 at
 the observed gradient-fidelity and posterior-quality changes.
 
 Change: Table II; Figure 2.
-
-------------------------------------------------------------------------
 
 Comment 2.3 — Calibration assessment
 
@@ -245,8 +221,6 @@ improves gradient alignment in the high-coherence bands, without any
 additional MCMC.
 
 Change: Section 3.2.
-
-------------------------------------------------------------------------
 
 Additional Questions
 
@@ -270,15 +244,11 @@ Additional Questions
   locations, and prior hyperparameters are specified (Data and Code
   Availability).
 
-------------------------------------------------------------------------
-
 Other changes
 
 We also fixed one internal inconsistency found during revision: the
 equation numbering and the reference list are now complete and
 consistent. All reviewer-requested changes are highlighted in red in the
 revised manuscript.
-
-------------------------------------------------------------------------
 
 End of response letter.
