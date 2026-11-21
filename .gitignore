@@ -62,3 +62,6 @@ Manuscript*.pdf
 *_text.txt
 EDITING_REPORT.txt
 *.md~
+
+# Experiment sample outputs (large, regenerable)
+experiments/ablation/results/*.npz
