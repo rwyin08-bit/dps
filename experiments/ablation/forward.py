@@ -84,13 +84,20 @@ class SteadyPressure:
         return p
 
     def _forward_and_factor(self, x, q):
-        Kf = np.exp(np.asarray(x, dtype=float).ravel())
+        xa = np.asarray(x, dtype=float).ravel()
+        # reject unphysical proposals (exp overflow) before they break the solver
+        if not np.all(np.isfinite(xa)) or xa.max() > 30.0 or xa.min() < -30.0:
+            return None, None, None, None
+        Kf = np.exp(xa)
         A = self._stiffness(Kf)
         if q is None:
             q = np.zeros(self.n)
         b = np.asarray(q, dtype=float).ravel()
-        lu = splu(A.tocsc())
-        p = lu.solve(b)
+        try:
+            lu = splu(A.tocsc())
+            p = lu.solve(b)
+        except RuntimeError:
+            return None, None, None, None
         return Kf, A, lu, p
 
     def likelihood_grad(self, x, y_obs, obs_idx, sigma, q=None):
@@ -101,6 +108,8 @@ class SteadyPressure:
         Returns (grad_x, log_lik) where grad_x = d/dx log p(y|x).
         """
         Kf, A, lu, p = self._forward_and_factor(x, q)
+        if lu is None:
+            return np.full(self.n, np.nan), -np.inf
         residual = p[obs_idx] - np.asarray(y_obs).ravel()
         log_lik = -0.5 * np.sum(residual ** 2) / sigma ** 2
 

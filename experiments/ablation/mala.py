@@ -39,6 +39,9 @@ class MALA:
         x_star = self.x + 0.5 * eps ** 2 * self.g + eps * eta
 
         lp_star, g_star = self.f(x_star)
+        # reject non-finite proposals (e.g. exp overflow in the forward model)
+        if not (np.isfinite(lp_star) and np.all(np.isfinite(g_star))):
+            return False, self.x.copy()
 
         # log acceptance (Metropolis with asymmetric Langevin proposal)
         # log q(x*|x) = -||x* - x - (eps^2/2) g||^2 / (2 eps^2)

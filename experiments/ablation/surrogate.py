@@ -69,6 +69,8 @@ class FrequencyAttenuatedSurrogate:
         # attenuated parameter and its forward solve
         x_tilde = self.attenuate_flat(np.asarray(x).ravel())
         Kf, A, lu, p = self.fwd._forward_and_factor(x_tilde, q)
+        if lu is None:
+            return np.full(self.fwd.n, np.nan), -np.inf
         residual = p[obs_idx] - np.asarray(y_obs).ravel()
         log_lik = -0.5 * np.sum(residual ** 2) / sigma ** 2
 
