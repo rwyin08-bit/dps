@@ -157,7 +157,7 @@ positioning paragraph that distinguishes the framework from the
 requested literatures: Bayesian model discrepancy (Kennedy and O’Hagan,
 2001), adaptive and goal-oriented surrogate construction (Li and
 Marzouk, 2014), and posterior approximation-error analysis (Cotter et
-al., 2010). The distinction is that these works aim to reduce surrogate
+al., 2009). The distinction is that these works aim to reduce surrogate
 error or to quantify a posterior for a specific surrogate, whereas the
 present work is a diagnostic that measures how a single surrogate
 property drives posterior degradation so that surrogate development can
@@ -228,7 +228,7 @@ Additional Questions
   single-property ablation that turns a lump-sum surrogate error into a
   structured sensitivity profile, together with a validated
   cross-spectral calibration.
-- Relationship to literature. We added Cotter et al. (2010), Kennedy and
+- Relationship to literature. We added Cotter et al. (2009), Kennedy and
   O’Hagan (2001), and Li and Marzouk (2014), and the positioning
   paragraph requested (Section 2).
 - Methodology. The parameter-attenuated surrogate is the appropriate

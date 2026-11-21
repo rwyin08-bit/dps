@@ -76,7 +76,7 @@ The original formulation attenuated the pressure field, which is already low-fre
 
 **Reviewer:** Compare with adaptive surrogate construction, data-driven reduced models, multilevel/multifidelity MCMC, Bayesian model discrepancy, and posterior sensitivity methods. Remove the unrelated Randall et al. (2007).
 
-**Response:** We removed the Randall et al. (2007) citation and added a positioning paragraph that distinguishes the framework from the requested literatures: Bayesian model discrepancy (Kennedy and O'Hagan, 2001), adaptive and goal-oriented surrogate construction (Li and Marzouk, 2014), and posterior approximation-error analysis (Cotter et al., 2010). The distinction is that these works aim to reduce surrogate error or to quantify a posterior for a specific surrogate, whereas the present work is a diagnostic that measures how a single surrogate property drives posterior degradation so that surrogate development can be targeted.
+**Response:** We removed the Randall et al. (2007) citation and added a positioning paragraph that distinguishes the framework from the requested literatures: Bayesian model discrepancy (Kennedy and O'Hagan, 2001), adaptive and goal-oriented surrogate construction (Li and Marzouk, 2014), and posterior approximation-error analysis (Cotter et al., 2009). The distinction is that these works aim to reduce surrogate error or to quantify a posterior for a specific surrogate, whereas the present work is a diagnostic that measures how a single surrogate property drives posterior degradation so that surrogate development can be targeted.
 
 **Change:** Section 2; References.
 
@@ -122,7 +122,7 @@ The original formulation attenuated the pressure field, which is already low-fre
 ### Additional Questions
 
 - **Originality.** The framework's novelty is the controlled, single-property ablation that turns a lump-sum surrogate error into a structured sensitivity profile, together with a validated cross-spectral calibration.
-- **Relationship to literature.** We added Cotter et al. (2010), Kennedy and O'Hagan (2001), and Li and Marzouk (2014), and the positioning paragraph requested (Section 2).
+- **Relationship to literature.** We added Cotter et al. (2009), Kennedy and O'Hagan (2001), and Li and Marzouk (2014), and the positioning paragraph requested (Section 2).
 - **Methodology.** The parameter-attenuated surrogate is the appropriate instrument for isolating the spectral mechanism, and the prior whitening makes the sampler tractable.
 - **Results.** The tables and figures are now generated from a single reproducible pipeline and are internally consistent.
 - **Implications.** The framework directs surrogate-development effort toward the most impactful property; this is stated in the Conclusion.
