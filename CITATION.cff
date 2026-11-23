@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "Surrogate-Guided Diffusion Posterior Sampling for Bayesian Reservoir History Matching"
+title: "Conditional Ablation of Surrogate Error in Bayesian Inversion"
 authors:
   - family-names: Yin
     given-names: Rongwang
@@ -11,9 +11,7 @@ authors:
 repository-code: "https://github.com/rwyin08-bit/dps"
 license: MIT
 keywords:
-  - history matching
-  - diffusion models
   - Bayesian inversion
-  - neural operators
-  - reservoir simulation
+  - surrogate modeling
+  - ablation analysis
   - uncertainty quantification

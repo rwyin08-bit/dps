@@ -75,3 +75,24 @@ experiments/ablation/results/*.npz
 
 # Local submission packaging (copies of tracked files)
 Revision_Upload/
+
+# Submission materials and paper drafts (local only, not part of the repo)
+manuscript_revised*.tex
+manuscript_revised*.pdf
+response_letter_final.*
+paper_*.tex
+paper_*.docx
+DPS_HM_*
+*.docx
+EC_Submission/
+DPS_HM_code_and_data/
+submission_MathGeosci/
+dps/
+_spe10_extract/
+_opm_data/
+SESSION_LOG.md
+
+# Root-level helper scripts used only for manuscript preparation
+/_*.py
+/_*.txt
+/_*.md
